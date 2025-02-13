@@ -44,8 +44,9 @@ const HomeScreen = () => {
         renderItem={({ item }) => (
           <TouchableOpacity 
             style={styles.card} 
-            onPress={() => alert(`Clicked on ${item.name}`)} // Temporary alert instead of navigation
+            onPress={() => router.push(`/product/${item.id}`)} // Correct navigation
           >
+
             <Image source={item.image} style={styles.image} />
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.price}>{item.price}</Text>
