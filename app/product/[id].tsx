@@ -1,10 +1,11 @@
-import { View, Text, Image, Button, StyleSheet } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
 const ProductPage = () => {
-    const { id } = useLocalSearchParams(); 
+    const { id } = useLocalSearchParams();
+    const router = useRouter();
 
-    // Mock product data (Replace this with an API call if needed)
+    // Mock product data
     const products = [
         { id: "1", name: "Laptop", description: "High performance laptop", price: "$999", image: require("../../assets/images/laptop.png") },
         { id: "2", name: "Microsoft Office", description: "Productivity software", price: "$149", image: require("../../assets/images/software.png") },
@@ -18,13 +19,26 @@ const ProductPage = () => {
         return <Text>Product not found</Text>;
     }
 
+    const handleAddToCart = () => {
+        Alert.alert("Added to Cart", `${product.name} has been added to your cart.`);
+        router.push("/cart");
+    };
+
     return (
         <View style={styles.container}>
+            {/* Back Button */}
+            <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+                <Text style={styles.backText}>← Back</Text>
+            </TouchableOpacity>
+
             <Image source={product.image} style={styles.image} />
             <Text style={styles.name}>{product.name}</Text>
             <Text style={styles.description}>{product.description}</Text>
             <Text style={styles.price}>{product.price}</Text>
-            <Button title="Add to Cart" onPress={() => alert("Added to cart")} />
+
+            <TouchableOpacity style={styles.button} onPress={handleAddToCart}>
+                <Text style={styles.buttonText}>Add to Shopping Cart</Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -35,6 +49,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 16,
         backgroundColor: "#fff",
+    },
+    backButton: {
+        alignSelf: "flex-start",
+        marginBottom: 10,
+        padding: 10,
+    },
+    backText: {
+        fontSize: 16,
+        color: "#0077cc",
     },
     image: {
         width: 200,
@@ -56,6 +79,17 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: "green",
         textAlign: "center",
+    },
+    button: {
+        backgroundColor: "#0077cc",
+        padding: 10,
+        borderRadius: 5,
+        marginTop: 10,
+    },
+    buttonText: {
+        color: "#fff",
+        fontSize: 16,
+        fontWeight: "bold",
     },
 });
 
