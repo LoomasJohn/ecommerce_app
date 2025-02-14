@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, TextInput, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { useRouter } from "expo-router";
-import { useProducts } from "./ProductContext"; // Import product context
+import { View, Text, FlatList, TextInput, StyleSheet } from "react-native";
+import { useProducts } from "../app/ProductContext"; // ✅ Import product context
+import ProductCard from "../components/ProductCard"; // ✅ Import new ProductCard component
 
 const HomeScreen = () => {
-  const router = useRouter();
-  const { products } = useProducts(); // Fetch products from context
-
+  const { products } = useProducts();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(products);
 
@@ -34,16 +32,7 @@ const HomeScreen = () => {
         keyExtractor={(item) => item.id}
         numColumns={2}
         columnWrapperStyle={styles.row}
-        renderItem={({ item }) => (
-          <TouchableOpacity 
-            style={styles.card} 
-            onPress={() => router.push(`/product/${item.id}`)}
-          >
-            <Image source={item.image} style={styles.image} />
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.price}>{item.price}</Text>
-          </TouchableOpacity>
-        )}
+        renderItem={({ item }) => <ProductCard product={item} />} // ✅ Use ProductCard
       />
     </View>
   );
