@@ -24,9 +24,17 @@ const ProductPage = () => {
 
     const handleAddToCart = () => {
         Alert.alert("Added to Cart", `${product.name} has been added to your cart.`);
-        addToCart({ id: product.id, name: product.name, description: product.description,  price: product.price, image: product.image });
+        addToCart({
+            id: product.id,
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            image: product.image,
+            quantity: 1 // Added quantity field
+        });
         router.push("/cart");
     };
+    
 
     return (
         <View style={styles.container}>
