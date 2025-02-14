@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, TextInput, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
+import { useProducts } from "./ProductContext"; // Import product context
 
 const HomeScreen = () => {
   const router = useRouter();
-
-  // Mock product data (temporary placeholders)
-  const [products, setProducts] = useState([
-    { id: 1, name: "Laptop", price: "$999", image: require("../assets/images/laptop.png") },
-    { id: 2, name: "Microsoft Office", price: "$149", image: require("../assets/images/software.png") },
-    { id: 3, name: "Headphones", price: "$199", image: require("../assets/images/headphones.png") },
-    { id: 4, name: "Printer", price: "$249", image: require("../assets/images/printer.png") },
-  ]);
+  const { products } = useProducts(); // Fetch products from context
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(products);
 
-  // Filter products based on search input
   useEffect(() => {
     setFilteredProducts(
       products.filter((product) =>
@@ -38,15 +31,14 @@ const HomeScreen = () => {
 
       <FlatList
         data={filteredProducts}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={2} // Ensures two products per row
-        columnWrapperStyle={styles.row} // Style for rows
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        columnWrapperStyle={styles.row}
         renderItem={({ item }) => (
           <TouchableOpacity 
             style={styles.card} 
-            onPress={() => router.push(`/product/${item.id}`)} // Correct navigation
+            onPress={() => router.push(`/product/${item.id}`)}
           >
-
             <Image source={item.image} style={styles.image} />
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.price}>{item.price}</Text>
@@ -79,7 +71,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flex: 1,
-    justifyContent: "space-around", // Distributes items evenly
+    justifyContent: "space-around",
     marginBottom: 12,
   },
   card: {
@@ -87,8 +79,8 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 10,
     alignItems: "center",
-    flex: 1, // Ensures equal width distribution
-    margin: 8, // Adds spacing between items
+    flex: 1,
+    margin: 8,
   },
   image: {
     width: 100,
@@ -107,5 +99,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+
 
 export default HomeScreen;

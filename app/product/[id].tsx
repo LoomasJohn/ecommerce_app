@@ -1,20 +1,13 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useCart, CartProvider } from '../cart';
-
+import { useCart } from "../cart";
+import { useProducts } from "../ProductContext"; // ✅ Import Product Context
 
 const ProductPage = () => {
     const { id } = useLocalSearchParams();
     const router = useRouter();
     const { addToCart } = useCart();
-
-    // Mock product data
-    const products = [
-        { id: "1", name: "Laptop", description: "High performance laptop", price: "$999", image: require("../../assets/images/laptop.png") },
-        { id: "2", name: "Microsoft Office", description: "Productivity software", price: "$149", image: require("../../assets/images/software.png") },
-        { id: "3", name: "Headphones", description: "Noise-cancelling headphones", price: "$199", image: require("../../assets/images/headphones.png") },
-        { id: "4", name: "Printer", description: "All-in-one printer", price: "$249", image: require("../../assets/images/printer.png") },
-    ];
+    const { products } = useProducts(); // ✅ Fetch products from context
 
     const product = products.find((p) => p.id === String(id));
 
@@ -24,21 +17,12 @@ const ProductPage = () => {
 
     const handleAddToCart = () => {
         Alert.alert("Added to Cart", `${product.name} has been added to your cart.`);
-        addToCart({
-            id: product.id,
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            image: product.image,
-            quantity: 1 // Added quantity field
-        });
+        addToCart({ id: product.id, name: product.name, description: product.description, price: product.price, image: product.image, quantity: 1 });
         router.push("/cart");
     };
-    
 
     return (
         <View style={styles.container}>
-            {/* Back Button */}
             <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
                 <Text style={styles.backText}>← Back</Text>
             </TouchableOpacity>
@@ -54,8 +38,6 @@ const ProductPage = () => {
         </View>
     );
 };
-
-
 
 const styles = StyleSheet.create({
     container: {
