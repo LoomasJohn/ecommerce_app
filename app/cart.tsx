@@ -46,25 +46,35 @@ export const useCart = () => {
 
 // Cart Screen
 const Cart = () => {
-  const { cart, removeFromCart } = useCart();
-
-  console.log("Current cart items:", cart);
-
-  return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 10 }}>Shopping Cart</Text>
-      <FlatList
-        data={cart}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 10 }}>
-            <Text>{item.name} - {item.price}</Text>
-            <Button title="Remove" onPress={() => removeFromCart(item.id)} />
-          </View>
-        )}
-      />
-    </View>
-  );
-};
+    const { cart, removeFromCart } = useCart();
+  
+    console.log("Current cart items:", cart);
+  
+    // Calculate total price
+    const totalPrice = cart.reduce((sum, item) => sum + parseFloat(item.price.replace("$", "")), 0);
+  
+    return (
+      <View style={{ padding: 20 }}>
+        <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 10 }}>Shopping Cart</Text>
+  
+        <FlatList
+          data={cart}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 10 }}>
+              <Text>{item.name} - {item.price}</Text>
+              <Button title="Remove" onPress={() => removeFromCart(item.id)} />
+            </View>
+          )}
+        />
+  
+        {/* Total Price Display */}
+        <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 10 }}>
+          Total: ${totalPrice.toFixed(2)}
+        </Text>
+      </View>
+    );
+  };
+  
 
 export default Cart;

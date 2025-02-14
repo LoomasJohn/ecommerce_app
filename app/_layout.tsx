@@ -37,7 +37,7 @@ export default function Layout() {
             tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} />,
           }}
         />
-        {/* 🚀 Hiding dynamic routes from the tab bar */}
+        {/* Hiding dynamic routes from the tab bar */}
         <Tabs.Screen
           name="product/[id]"
           options={{ href: null }} // This removes "product/[id]" from the tab bar
