@@ -16,7 +16,7 @@ const ProductPage = () => {
         { id: "4", name: "Printer", description: "All-in-one printer", price: "$249", image: require("../../assets/images/printer.png") },
     ];
 
-    const product = products.find((p) => p.id === id);
+    const product = products.find((p) => p.id === String(id));
 
     if (!product) {
         return <Text>Product not found</Text>;
