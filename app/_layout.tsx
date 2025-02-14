@@ -1,8 +1,14 @@
 import { Stack, Tabs, usePathname } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import rect from "react";
+import { CartProvider } from "./cart";
+
 
 export default function Layout() {
   return (
+    <CartProvider>
+      <Stack>{
+
     <Tabs
       screenOptions={{
         tabBarStyle: { backgroundColor: "#0077cc" },
@@ -35,5 +41,7 @@ export default function Layout() {
         }}
       />
     </Tabs>
+      }</Stack>
+          </CartProvider>
   );
 }

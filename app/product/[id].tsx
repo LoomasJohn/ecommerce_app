@@ -1,9 +1,12 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useCart, CartProvider } from '../cart';
+
 
 const ProductPage = () => {
     const { id } = useLocalSearchParams();
     const router = useRouter();
+    const { addToCart } = useCart();
 
     // Mock product data
     const products = [
@@ -21,6 +24,7 @@ const ProductPage = () => {
 
     const handleAddToCart = () => {
         Alert.alert("Added to Cart", `${product.name} has been added to your cart.`);
+        addToCart({ id: product.id, name: product.name, description: product.description,  price: product.price, image: product.image });
         router.push("/cart");
     };
 
@@ -42,6 +46,8 @@ const ProductPage = () => {
         </View>
     );
 };
+
+
 
 const styles = StyleSheet.create({
     container: {
