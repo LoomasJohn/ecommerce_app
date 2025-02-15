@@ -61,7 +61,7 @@ export const useCart = () => {
   return context;
 };
 
-// ✅ Updated Cart Screen
+// Updated Cart Screen
 const Cart = () => {
   const { cart, removeFromCart } = useCart();
 

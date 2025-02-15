@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { CartProvider } from "./cart";
+import { CartProvider } from "../app/cart";
 import { ProductProvider } from "./ProductContext";
 import CartButton from "../components/CartButton";
 import { View, Pressable } from "react-native";
@@ -15,7 +15,6 @@ export default function Layout() {
         <View style={{ flex: 1 }}>
           <Tabs
             screenOptions={{
-              tabBarStyle: globalStyles.navBar, 
               tabBarActiveTintColor: "#fff",
               tabBarInactiveTintColor: "#ddd",
               headerStyle: { backgroundColor: "#0077cc" },
