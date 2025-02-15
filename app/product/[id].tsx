@@ -1,14 +1,14 @@
-import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
+import { View, Text, Image, Pressable, Alert } from "react-native"; // ✅ Replaced TouchableOpacity with Pressable
 import { useLocalSearchParams, useRouter, useNavigation } from "expo-router";
 import { useCart } from "../cart";
 import { useProducts } from "../ProductContext"; 
 import { globalStyles } from "../../styles/globalStyles"; 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ProductPage = () => {
     const { id } = useLocalSearchParams();
     const router = useRouter();
-    const navigation = useNavigation(); // Access navigation
+    const navigation = useNavigation();
     const { addToCart } = useCart();
     const { products } = useProducts(); 
 
@@ -16,7 +16,7 @@ const ProductPage = () => {
 
     useEffect(() => {
         if (product) {
-            navigation.setOptions({ title: product.name }); // Set title dynamically
+            navigation.setOptions({ title: product.name });
         }
     }, [product, navigation]);
 
@@ -30,20 +30,41 @@ const ProductPage = () => {
         router.push("/cart");
     };
 
+    const [backHovered, setBackHovered] = useState(false);
+    const [cartHovered, setCartHovered] = useState(false);
+
     return (
         <View style={globalStyles.container}>
-            <TouchableOpacity style={globalStyles.button} onPress={() => router.back()}>
+            {/* Back Button with Hover Effect */}
+            <Pressable
+                onPress={() => router.back()}
+                onHoverIn={() => setBackHovered(true)}
+                onHoverOut={() => setBackHovered(false)}
+                style={[
+                    globalStyles.button,
+                    { backgroundColor: backHovered ? "#005fa3" : "#0077cc" },
+                ]}
+            >
                 <Text style={globalStyles.buttonText}>← Back</Text>
-            </TouchableOpacity>
+            </Pressable>
 
             <Image source={product.image} style={globalStyles.image} />
             <Text style={globalStyles.name}>{product.name}</Text>
             <Text style={globalStyles.description}>{product.description}</Text>
             <Text style={globalStyles.price}>{product.price}</Text>
 
-            <TouchableOpacity style={globalStyles.button} onPress={handleAddToCart}>
+            {/* Add to Cart Button with Hover Effect */}
+            <Pressable
+                onPress={handleAddToCart}
+                onHoverIn={() => setCartHovered(true)}
+                onHoverOut={() => setCartHovered(false)}
+                style={[
+                    globalStyles.button,
+                    { backgroundColor: cartHovered ? "#005fa3" : "#0077cc" },
+                ]}
+            >
                 <Text style={globalStyles.buttonText}>Add to Shopping Cart</Text>
-            </TouchableOpacity>
+            </Pressable>
         </View>
     );
 };

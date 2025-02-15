@@ -6,6 +6,11 @@ export const globalStyles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#fff",
   },
+  cartButtonContainer: {
+    position: "absolute",
+    bottom: 70, // Adjusted so it's above the navigation bar
+    right: 20,
+  },
   header: {
     fontSize: 24,
     fontWeight: "bold",
