@@ -15,12 +15,13 @@ export default function Layout() {
         <View style={{ flex: 1 }}>
           <Tabs
             screenOptions={{
-              tabBarStyle: { backgroundColor: "#0077cc" },
+              tabBarStyle: globalStyles.navBar, 
               tabBarActiveTintColor: "#fff",
               tabBarInactiveTintColor: "#ddd",
               headerStyle: { backgroundColor: "#0077cc" },
               headerTintColor: "#fff",
               headerTitleAlign: "center",
+              tabBarLabelStyle: globalStyles.tabBarLabel,
             }}
           >
             <Tabs.Screen

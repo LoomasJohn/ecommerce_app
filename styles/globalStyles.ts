@@ -92,4 +92,20 @@ export const globalStyles = StyleSheet.create({
     textAlign: "center",
     marginVertical: 8,
   },
+  navBar: {
+    backgroundColor: "#0077cc",
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    height: 65,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+  },
+  tabBarLabel: {
+    fontSize: 14,
+    fontWeight: "600",
+    marginBottom: 5,
+  },
+  
 });
