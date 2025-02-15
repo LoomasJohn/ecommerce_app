@@ -64,13 +64,17 @@ export const globalStyles = StyleSheet.create({
     marginBottom: 12,
   },
   card: {
-    backgroundColor: "#f8f8f8",
+    backgroundColor: "#fff",
     padding: 12,
-    borderRadius: 10,
+    borderRadius: 12,
     alignItems: "center",
     flex: 1,
     margin: 8,
-  },
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4
+  },  
   image: {
     width: 100,
     height: 100,

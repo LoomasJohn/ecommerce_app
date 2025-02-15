@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Image, Pressable } from "react-native";
+import { View, Text, Image, Pressable, Animated } from "react-native";
 import { useRouter } from "expo-router";
 import { globalStyles } from "../styles/globalStyles";
 
@@ -12,21 +12,35 @@ interface Product {
 
 const ProductCard = ({ product }: { product: Product }) => {
   const router = useRouter();
-  const [hovered, setHovered] = useState(false);
+  const scale = new Animated.Value(1);
+
+  const handleHoverIn = () => {
+    Animated.timing(scale, {
+      toValue: 1.05,
+      duration: 150,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handleHoverOut = () => {
+    Animated.timing(scale, {
+      toValue: 1,
+      duration: 150,
+      useNativeDriver: true,
+    }).start();
+  };
 
   return (
     <Pressable
       onPress={() => router.push(`/product/${product.id}`)}
-      onHoverIn={() => setHovered(true)}
-      onHoverOut={() => setHovered(false)}
-      style={[
-        globalStyles.card,
-        { backgroundColor: hovered ? "#e0e0e0" : "#f8f8f8" },
-      ]}
+      onHoverIn={handleHoverIn}
+      onHoverOut={handleHoverOut}
     >
-      <Image source={product.image} style={globalStyles.image} />
-      <Text style={globalStyles.name}>{product.name}</Text>
-      <Text style={globalStyles.price}>{product.price}</Text>
+      <Animated.View style={[globalStyles.card, { transform: [{ scale }] }]}>
+        <Image source={product.image} style={globalStyles.image} />
+        <Text style={globalStyles.name}>{product.name}</Text>
+        <Text style={globalStyles.price}>{product.price}</Text>
+      </Animated.View>
     </Pressable>
   );
 };
