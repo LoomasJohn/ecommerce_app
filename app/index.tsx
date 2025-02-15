@@ -1,24 +1,46 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, TextInput, StyleSheet } from "react-native";
-import { useProducts } from "../app/ProductContext"; // Import product context
-import ProductCard from "../components/ProductCard"; // Import new ProductCard component
+import { Picker } from "@react-native-picker/picker";
+import { View, Text, FlatList, TextInput, StyleSheet, } from "react-native";
+import { useProducts } from "../app/ProductContext"; 
+import ProductCard from "../components/ProductCard"; 
 
 const HomeScreen = () => {
-  const { products } = useProducts();
+  const { products, categories } = useProducts();
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [filteredProducts, setFilteredProducts] = useState(products);
 
   useEffect(() => {
+    let filtered = products;
+
+    // Apply category filter
+    if (selectedCategory !== "All") {
+      filtered = filtered.filter((product) => product.category === selectedCategory);
+    }
+
+    // Apply search filter
     setFilteredProducts(
-      products.filter((product) =>
+      filtered.filter((product) =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     );
-  }, [searchQuery, products]);
+  }, [searchQuery, selectedCategory, products]);
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>UNG Bookstore</Text>
+
+      {/* Category Picker */}
+      <Picker
+        selectedValue={selectedCategory}
+        onValueChange={(itemValue: string) => setSelectedCategory(itemValue)} // ✅ Added type annotation
+        style={styles.picker}
+      >
+        {categories.map((category) => (
+          <Picker.Item key={category} label={category} value={category} />
+        ))}
+      </Picker>
+
 
       <TextInput
         style={styles.searchBar}
@@ -32,7 +54,7 @@ const HomeScreen = () => {
         keyExtractor={(item) => item.id}
         numColumns={2}
         columnWrapperStyle={styles.row}
-        renderItem={({ item }) => <ProductCard product={item} />} // ✅ Use ProductCard
+        renderItem={({ item }) => <ProductCard product={item} />}
       />
     </View>
   );
@@ -50,6 +72,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 16,
   },
+  picker: {
+    height: 50,
+    width: "100%",
+    marginBottom: 10,
+  },
   searchBar: {
     height: 40,
     borderWidth: 1,
@@ -63,31 +90,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     marginBottom: 12,
   },
-  card: {
-    backgroundColor: "#f8f8f8",
-    padding: 12,
-    borderRadius: 10,
-    alignItems: "center",
-    flex: 1,
-    margin: 8,
-  },
-  image: {
-    width: 100,
-    height: 100,
-    resizeMode: "contain",
-    marginBottom: 8,
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  price: {
-    fontSize: 14,
-    color: "green",
-    textAlign: "center",
-  },
 });
-
 
 export default HomeScreen;
