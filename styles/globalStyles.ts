@@ -22,12 +22,16 @@ export const globalStyles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
     elevation: 3,
+    width: "40%",
+    alignSelf: "center"
   },
   picker: {
     backgroundColor: "#ffffff",
     borderRadius: 8,
     padding: 10,
     marginBottom: 16,
+    width: "40%",
+    alignSelf: "center"
   },
   row: {
     flexDirection: "row",
