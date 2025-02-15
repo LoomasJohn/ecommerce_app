@@ -7,13 +7,13 @@ interface Product {
   description: string;
   price: string;
   image: any;
-  category: string;  // ✅ Added category field
+  category: string;  // Added category field
 }
 
 // Context type
 interface ProductContextType {
   products: Product[];
-  categories: string[]; // ✅ Added category list
+  categories: string[]; // Added category list
 }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);

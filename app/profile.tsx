@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, FlatList, TouchableOpacity } from "react-native";
-import { globalStyles } from "../styles/globalStyles"; // Import global styles
+import { globalStyles } from "../styles/globalStyles"; 
 
 const Profile = () => {
   interface User {

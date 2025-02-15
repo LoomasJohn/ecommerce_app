@@ -3,7 +3,7 @@ import { Picker } from "@react-native-picker/picker";
 import { View, Text, FlatList, TextInput } from "react-native";
 import { useProducts } from "../app/ProductContext"; 
 import ProductCard from "../components/ProductCard"; 
-import { globalStyles } from "../styles/globalStyles"; // Import global styles
+import { globalStyles } from "../styles/globalStyles";
 
 const HomeScreen = () => {
   const { products, categories } = useProducts();

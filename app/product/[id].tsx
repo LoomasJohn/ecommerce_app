@@ -8,7 +8,7 @@ import { useEffect } from "react";
 const ProductPage = () => {
     const { id } = useLocalSearchParams();
     const router = useRouter();
-    const navigation = useNavigation(); // ✅ Access navigation
+    const navigation = useNavigation(); // Access navigation
     const { addToCart } = useCart();
     const { products } = useProducts(); 
 
@@ -16,7 +16,7 @@ const ProductPage = () => {
 
     useEffect(() => {
         if (product) {
-            navigation.setOptions({ title: product.name }); // ✅ Set title dynamically
+            navigation.setOptions({ title: product.name }); // Set title dynamically
         }
     }, [product, navigation]);
 

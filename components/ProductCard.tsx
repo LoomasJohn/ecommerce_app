@@ -15,7 +15,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
   return (
     <TouchableOpacity 
-      style={globalStyles.card} // ✅ Use global styles
+      style={globalStyles.card} //Use global styles
       onPress={() => router.push(`/product/${product.id}`)}
     >
       <Image source={product.image} style={globalStyles.image} />

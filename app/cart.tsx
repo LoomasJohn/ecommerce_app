@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 import { View, Text, Button, FlatList } from 'react-native';
-import { globalStyles } from "../styles/globalStyles"; // Import global styles
+import { globalStyles } from "../styles/globalStyles";
 
 // Updated Product interface to track quantity
 interface Product {
