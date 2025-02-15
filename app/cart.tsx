@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 import { View, Text, Button, FlatList } from 'react-native';
+import { globalStyles } from "../styles/globalStyles"; // Import global styles
 
 // Updated Product interface to track quantity
 interface Product {
@@ -8,7 +9,7 @@ interface Product {
   description: string;
   price: string;
   image: any;
-  quantity: number;  // Added quantity field
+  quantity: number;
 }
 
 interface CartContextType {
@@ -22,11 +23,9 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<Product[]>([]);
 
-  // Updated addToCart function
   const addToCart = (product: Product) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === product.id);
-      
       if (existingItem) {
         return prevCart.map((item) =>
           item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
@@ -37,14 +36,13 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  // Updated removeFromCart function
   const removeFromCart = (id: string) => {
     setCart((prevCart) =>
       prevCart
         .map((item) =>
           item.id === id ? { ...item, quantity: item.quantity - 1 } : item
         )
-        .filter((item) => item.quantity > 0) // Remove item if quantity reaches 0
+        .filter((item) => item.quantity > 0) 
     );
   };
 
@@ -63,18 +61,17 @@ export const useCart = () => {
   return context;
 };
 
-// Updated Cart Screen to display quantities
+// ✅ Updated Cart Screen
 const Cart = () => {
   const { cart, removeFromCart } = useCart();
 
   console.log("Current cart items:", cart);
 
-  // Calculate total price
   const totalPrice = cart.reduce((sum, item) => sum + (parseFloat(item.price.replace("$", "")) * item.quantity), 0);
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 10 }}>Shopping Cart</Text>
+    <View style={globalStyles.container}>
+      <Text style={globalStyles.header}>Shopping Cart</Text>
 
       <FlatList
         data={cart}
@@ -87,7 +84,6 @@ const Cart = () => {
         )}
       />
 
-      {/* Total Price Display */}
       <Text style={{ fontSize: 18, fontWeight: "bold", marginTop: 10 }}>
         Total: ${totalPrice.toFixed(2)}
       </Text>

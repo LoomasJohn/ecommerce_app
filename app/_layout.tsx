@@ -3,8 +3,8 @@ import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { CartProvider } from "./cart";
 import { ProductProvider } from "./ProductContext";
-import CartButton from "../components/CartButton"; // Import CartButton
-import { View } from "react-native";
+import CartButton from "../components/CartButton";
+import { View, StyleSheet } from "react-native";
 
 export default function Layout() {
   return (
@@ -42,14 +42,23 @@ export default function Layout() {
                 tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} />,
               }}
             />
-            {/* Hiding dynamic routes from the tab bar */}
             <Tabs.Screen name="product/[id]" options={{ href: null }} />
           </Tabs>
 
-          {/* Add CartButton globally */}
-          <CartButton />
+          {/*Wrap CartButton in a floating container */}
+          <View style={styles.cartButtonContainer}>
+            <CartButton />
+          </View>
         </View>
       </CartProvider>
     </ProductProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  cartButtonContainer: {
+    position: "absolute",
+    bottom: 70, //Adjusted so it's above the navigation bar
+    right: 20,
+  },
+});

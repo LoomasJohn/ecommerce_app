@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import React, { useState } from "react";
+import { View, Text, TextInput, Button, FlatList, TouchableOpacity } from "react-native";
+import { globalStyles } from "../styles/globalStyles"; // Import global styles
 
 const Profile = () => {
   interface User {
@@ -8,70 +9,60 @@ const Profile = () => {
     orderHistory: string[];
   }
 
-  const [users, setUsers] = useState<User[]>([]); // Array to hold multiple users
+  const [users, setUsers] = useState<User[]>([]);
   const [newUser, setNewUser] = useState<User>({
-    name: '',
-    email: '',
+    name: "",
+    email: "",
     orderHistory: [],
   });
-  const [editingIndex, setEditingIndex] = useState<number | null>(null); // Track which user is being edited
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   const handleAddUser = () => {
     if (!newUser.name || !newUser.email) {
-      alert('Please fill in both fields.');
+      alert("Please fill in both fields.");
       return;
     }
 
-    // Simple email validation
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(newUser.email)) {
-      alert('Please enter a valid email address.');
+      alert("Please enter a valid email address.");
       return;
     }
 
-console.log('Current Users:', users);
-console.log('New User:', newUser);
-
     if (editingIndex !== null) {
-      // Update existing user
       const updatedUsers = [...users];
       updatedUsers[editingIndex] = newUser;
       setUsers(updatedUsers);
-      setEditingIndex(null); // Reset editing index
+      setEditingIndex(null);
     } else {
-      // Add new user
       setUsers([...users, newUser]);
     }
 
-    // Reset newUser state
-    setNewUser({ name: '', email: '', orderHistory: [] });
-    console.log('Updated Users:', [...users, newUser]);
+    setNewUser({ name: "", email: "", orderHistory: [] });
   };
 
-const handleEditProfile = (index: number) => {
-    // Populate newUser with the selected user's information for editing
+  const handleEditProfile = (index: number) => {
     setNewUser(users[index]);
-    setEditingIndex(index); // Set the index of the user being edited
-};
+    setEditingIndex(index);
+  };
 
-const handleViewOrderHistory = (orderHistory: string[]) => {
-    // Logic to view order history (e.g., navigate to an order history screen)
-    console.log('Order History:', orderHistory);
-};
+  const handleViewOrderHistory = (orderHistory: string[]) => {
+    console.log("Order History:", orderHistory);
+  };
 
-  const renderUser = ({ item, index }: { item: any, index: number }) => (
-    <View style={styles.userInfo}>
-      <Text style={styles.userInfoText}>Name: {item.name}</Text>
-      <Text style={styles.userInfoText}>Email: {item.email}</Text>
+  const renderUser = ({ item, index }: { item: User; index: number }) => (
+    <View style={globalStyles.card}>
+      <Text style={globalStyles.name}>Name: {item.name}</Text>
+      <Text style={globalStyles.price}>Email: {item.email}</Text>
       <Button title="Edit Profile" onPress={() => handleEditProfile(index)} />
       <Button title="View Order History" onPress={() => handleViewOrderHistory(item.orderHistory)} />
-      <Text style={styles.orderHistoryTitle}>Order History:</Text>
+      <Text style={globalStyles.header}>Order History:</Text>
       <FlatList
         data={item.orderHistory}
         keyExtractor={(orderItem, orderIndex) => orderIndex.toString()}
         renderItem={({ item: orderItem }) => (
           <TouchableOpacity>
-            <Text style={styles.orderItem}>{orderItem}</Text>
+            <Text style={globalStyles.price}>{orderItem}</Text>
           </TouchableOpacity>
         )}
       />
@@ -79,17 +70,17 @@ const handleViewOrderHistory = (orderHistory: string[]) => {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>User Profiles</Text>
+    <View style={globalStyles.container}>
+      <Text style={globalStyles.header}>User Profiles</Text>
 
       <TextInput
-        style={styles.input}
+        style={globalStyles.searchBar}
         placeholder="Name"
         value={newUser.name}
         onChangeText={(text) => setNewUser({ ...newUser, name: text })}
       />
       <TextInput
-        style={styles.input}
+        style={globalStyles.searchBar}
         placeholder="Email"
         value={newUser.email}
         onChangeText={(text) => setNewUser({ ...newUser, email: text })}
@@ -97,61 +88,12 @@ const handleViewOrderHistory = (orderHistory: string[]) => {
       <Button title={editingIndex !== null ? "Update User" : "Add User"} onPress={handleAddUser} />
 
       {users.length > 0 ? (
-        <FlatList
-          data={users}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderUser}
-        />
+        <FlatList data={users} keyExtractor={(item, index) => index.toString()} renderItem={renderUser} />
       ) : (
-        <Text style={styles.placeholderText}>No users added yet.</Text>
+        <Text style={globalStyles.price}>No users added yet.</Text>
       )}
     </View>
   );
 };
-
-// if the stylesheet part is redundant because of _layout.tsx, can prob just get rid of it
-// only keeping what is here so if needed, might be able to change margins and sizes of boxes
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-  },
-  userInfo: {
-    marginTop: 20,
-    padding: 10,
-    borderColor: 'lightgray',
-    borderWidth: 1,
-    borderRadius: 5,
-  },
-  userInfoText: {
-    fontSize: 18,
-  },
-  orderHistoryTitle: {
-    fontSize: 20,
-    marginTop: 10,
-    fontWeight: 'bold',
-  },
-  orderItem: {
-    fontSize: 16,
-    padding: 5,
-  },
-  placeholderText: {
-    fontSize: 16,
-    color: 'gray',
-  },
-});
 
 export default Profile;
