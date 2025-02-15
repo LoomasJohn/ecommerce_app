@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, TextInput, StyleSheet } from "react-native";
-import { useProducts } from "../app/ProductContext"; // ✅ Import product context
-import ProductCard from "../components/ProductCard"; // ✅ Import new ProductCard component
+import { useProducts } from "../app/ProductContext"; // Import product context
+import ProductCard from "../components/ProductCard"; // Import new ProductCard component
 
 const HomeScreen = () => {
   const { products } = useProducts();

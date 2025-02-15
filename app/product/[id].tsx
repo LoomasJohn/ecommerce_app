@@ -1,13 +1,13 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useCart } from "../cart";
-import { useProducts } from "../ProductContext"; // ✅ Import Product Context
+import { useProducts } from "../ProductContext"; // Import Product Context
 
 const ProductPage = () => {
     const { id } = useLocalSearchParams();
     const router = useRouter();
     const { addToCart } = useCart();
-    const { products } = useProducts(); // ✅ Fetch products from context
+    const { products } = useProducts(); // Fetch products from context
 
     const product = products.find((p) => p.id === String(id));
 

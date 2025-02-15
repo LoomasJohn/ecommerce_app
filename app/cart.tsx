@@ -22,7 +22,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<Product[]>([]);
 
-  // ✅ Updated addToCart function
+  // Updated addToCart function
   const addToCart = (product: Product) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === product.id);
@@ -37,7 +37,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  // ✅ Updated removeFromCart function
+  // Updated removeFromCart function
   const removeFromCart = (id: string) => {
     setCart((prevCart) =>
       prevCart
@@ -63,7 +63,7 @@ export const useCart = () => {
   return context;
 };
 
-// ✅ Updated Cart Screen to display quantities
+// Updated Cart Screen to display quantities
 const Cart = () => {
   const { cart, removeFromCart } = useCart();
 
