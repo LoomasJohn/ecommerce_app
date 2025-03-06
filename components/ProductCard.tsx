@@ -4,11 +4,12 @@ import { useRouter } from "expo-router";
 import { globalStyles } from "../styles/globalStyles";
 
 interface Product {
-  id: string;
+  id: number;        // CHANGED from string to number
   name: string;
-  price: string;
+  price: number;     // CHANGED from string to number
   image: any;
   description: string;
+  category: string;  // If you need category here, include it
 }
 
 const ProductCard = ({ product }: { product: Product }) => {
@@ -50,12 +51,16 @@ const ProductCard = ({ product }: { product: Product }) => {
       onHoverIn={handleHoverIn}
       onHoverOut={handleHoverOut}
     >
-       <Animated.View style={[globalStyles.card, { width: widthAnim, flexDirection: "row", alignItems: "center" }]}>
+      <Animated.View
+        style={[
+          globalStyles.card,
+          { width: widthAnim, flexDirection: "row", alignItems: "center" },
+        ]}
+      >
         <Image source={product.image} style={globalStyles.image} />
         <View style={{ flex: 1, paddingLeft: 10 }}>
           <Text style={globalStyles.name}>{product.name}</Text>
           <Text style={globalStyles.price}>{product.price}</Text>
-          
           <Animated.Text style={[globalStyles.description, { opacity: opacityAnim }]}>
             {product.description}
           </Animated.Text>

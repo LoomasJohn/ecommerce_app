@@ -1,29 +1,55 @@
 import React, { createContext, useContext, useState } from "react";
 
-// Define the product type
 interface Product {
-  id: string;
+  id: number;
   name: string;
   description: string;
-  price: string;
+  price: number;
   image: any;
-  category: string;  // Added category field
+  category: string;
 }
 
-// Context type
 interface ProductContextType {
   products: Product[];
-  categories: string[]; // Added category list
+  categories: string[];
 }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 export const ProductProvider = ({ children }: { children: React.ReactNode }) => {
   const [products] = useState<Product[]>([
-    { id: "1", name: "Laptop", category: "Electronics", description: "High performance laptop", price: "$999", image: require("../assets/images/laptop.png") },
-    { id: "2", name: "Microsoft Office", category: "Software", description: "Productivity software", price: "$149", image: require("../assets/images/software.png") },
-    { id: "3", name: "Headphones", category: "Electronics", description: "Noise-cancelling headphones", price: "$199", image: require("../assets/images/headphones.png") },
-    { id: "4", name: "Printer", category: "Electronics", description: "All-in-one printer", price: "$249", image: require("../assets/images/printer.png") },
+    {
+      id: 1,
+      name: "Laptop",
+      category: "Electronics",
+      description: "High performance laptop",
+      price: 999,
+      image: require("../assets/images/laptop.png"),
+    },
+    {
+      id: 2,
+      name: "Microsoft Office",
+      category: "Software",
+      description: "Productivity software",
+      price: 149,
+      image: require("../assets/images/software.png"),
+    },
+    {
+      id: 3,
+      name: "Headphones",
+      category: "Electronics",
+      description: "Noise-cancelling headphones",
+      price: 199,
+      image: require("../assets/images/headphones.png"),
+    },
+    {
+      id: 4,
+      name: "Printer",
+      category: "Electronics",
+      description: "All-in-one printer",
+      price: 249,
+      image: require("../assets/images/printer.png"),
+    },
   ]);
 
   // Extract unique categories

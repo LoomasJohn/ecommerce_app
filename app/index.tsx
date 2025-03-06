@@ -1,16 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { View, Text, FlatList, TextInput } from "react-native";
-import { useProducts } from "../app/ProductContext"; 
+import { getProducts } from "../database"; // Import SQLite fetch function
 import ProductCard from "../components/ProductCard"; 
 import { globalStyles } from "../styles/globalStyles";
 
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  description?: string;
+  category: string;
+  image?: string;
+}
+
 const HomeScreen = () => {
-  const { products, categories } = useProducts();
+  const [products, setProducts] = useState<Product[]>([]); // Now using local state from SQLite
+  const [categories, setCategories] = useState(["All"]); // Static category list for now
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
+  // Fetch products from SQLite when component mounts
+  useEffect(() => {
+    getProducts(setProducts);
+  }, []);
+
+  // Filter products when category or search query changes
   useEffect(() => {
     let filtered = products;
 
@@ -42,6 +58,7 @@ const HomeScreen = () => {
         ))}
       </Picker>
 
+      {/* Search Bar */}
       <TextInput
         style={globalStyles.searchBar}
         placeholder="Search products..."
@@ -49,12 +66,16 @@ const HomeScreen = () => {
         onChangeText={setSearchQuery}
       />
 
+      {/* Product List */}
       <FlatList
         data={filteredProducts}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         numColumns={2}
         columnWrapperStyle={globalStyles.row}
+        keyExtractor={(item) => item.id.toString()} // For the FlatList key, this is fine
         renderItem={({ item }) => <ProductCard product={item} />}
+
+      
       />
     </View>
   );
